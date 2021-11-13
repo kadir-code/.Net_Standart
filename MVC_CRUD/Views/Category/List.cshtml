@@ -11,7 +11,7 @@
                 <h4 class="box-title">Category List</h4>
             </div>
             <div class="box-body">
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover" id="tbl">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -22,7 +22,6 @@
                             <th>Update Date</th>
                             <th>Delete Date</th>
                             <th>Update</th>
-                            <th>Details</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -32,14 +31,14 @@
 
                             <tr  id="a_@item.Id">
                                 <td>@item.Id</td>
-                                <td>@item.Name</td>
-                                <td>@item.Description</td>
+                                <td class="name">@item.Name</td>
+                                <td class="description">@item.Description</td>
                                 <td>@item.Status</td>
                                 <td>@item.CreateDate</td>
                                 <td>@item.UpdateDate</td>
                                 <td>@item.DeleteTime</td>
                                 <td>
-                                    <a href="/Category/Update/@item.Id" class="btn btn-warning btn-sm">Update</a>
+                                    <a href="/Category/Update/@item.Id" class="btn btn-warning btn-sm update">Update</a>
                                 </td>
                                 <td>
                                     <input type="button" onclick="Delete(@item.Id)" value="Delete" name="Delete" class="btn btn-danger btn-sm" />
@@ -57,6 +56,20 @@
 </div>
 
 <script>
+    $("body").on("click", "#tbl .update", function () {
+        var cData = {};
+        cData.name = row.find(".name").find("td").html();
+        cData.description = row.find(".description").find("td").html();
+        $.ajax({
+            type: "post",
+            url: "/Category/Update",
+            data: {
+                "cData": JSON.stringify(cData)
+            },
+            dataType:"json"
+        })
+    })
+
     function Delete(id) {
         $.ajax({
             url: "/Category/Delete/" + id,

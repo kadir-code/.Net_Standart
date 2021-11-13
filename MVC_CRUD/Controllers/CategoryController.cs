@@ -24,8 +24,9 @@ namespace MVC_CRUD.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(CreateCategoryDTO model)
+        public JsonResult Create(CreateCategoryDTO model)
         {
+            
             if (ModelState.IsValid)
             {
                 Category category = new Category();
@@ -33,11 +34,11 @@ namespace MVC_CRUD.Controllers
                 category.Description = model.Description;
                 db.Categories.Add(category);
                 db.SaveChanges();
-                return View();
+                return Json(JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return View(model);
+                return Json(model);
             }
         }
 
@@ -68,7 +69,7 @@ namespace MVC_CRUD.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(UpdateCategoryDTO model)
+        public JsonResult Update(UpdateCategoryDTO model)
         {
             Category category = db.Categories.FirstOrDefault(x => x.Id == model.Id);
             if (ModelState.IsValid)
@@ -78,11 +79,11 @@ namespace MVC_CRUD.Controllers
                 category.UpdateDate = DateTime.Now;
                 category.Status = Status.Modified;
                 db.SaveChanges();
-                return RedirectToAction("List");
+                return Json("");
             }
             else
             {
-                return View(model);
+                return Json(model);
             }
         }
     }

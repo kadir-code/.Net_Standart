@@ -1,0 +1,70 @@
+﻿@model List<MVC_CRUD.Models.Entities.Concrete.Category>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box">
+            <div class="box-header">
+                <h4 class="box-title">Category List</h4>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Create Date</th>
+                            <th>Update Date</th>
+                            <th>Delete Date</th>
+                            <th>Update</th>
+                            <th>Details</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+
+                            <tr  id="a_@item.Id">
+                                <td>@item.Id</td>
+                                <td>@item.Name</td>
+                                <td>@item.Description</td>
+                                <td>@item.Status</td>
+                                <td>@item.CreateDate</td>
+                                <td>@item.UpdateDate</td>
+                                <td>@item.DeleteTime</td>
+                                <td>
+                                    <a href="/Category/Update/@item.Id" class="btn btn-warning btn-sm">Update</a>
+                                </td>
+                                <td>
+                                    <input type="button" onclick="Delete(@item.Id)" value="Delete" name="Delete" class="btn btn-danger btn-sm" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer">
+                <a href="/Category/Create" class="btn btn-primary btn-block">Create New Category</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function Delete(id) {
+        $.ajax({
+            url: "/Category/Delete/" + id,
+            type: "POST",
+            success: function () {
+                $("#a_" + id).fadeOut();
+            }
+        });
+
+    }
+</script>
